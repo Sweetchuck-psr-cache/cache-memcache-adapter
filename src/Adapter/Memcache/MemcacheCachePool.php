@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of php-cache\memcache-adapter package.
+ * This file is part of php-cache organization.
  *
  * (c) 2015-2015 Aaron Scherer <aequasi@gmail.com>, Tobias Nyholm <tobias.nyholm@gmail.com>
  *
@@ -22,21 +22,37 @@ class MemcacheCachePool extends AbstractCachePool
      */
     private $cache;
 
+    /**
+     * @param Memcache $cache
+     */
     public function __construct(Memcache $cache)
     {
         $this->cache = $cache;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function fetchObjectFromCache($key)
     {
-        return $this->cache->get($key);
+        if (false === $result = unserialize($this->cache->get($key))) {
+            return [false, null, []];
+        }
+
+        return $result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function clearAllObjectsFromCache()
     {
         return $this->cache->flush();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function clearOneObjectFromCache($key)
     {
         $this->cache->delete($key);
@@ -44,8 +60,13 @@ class MemcacheCachePool extends AbstractCachePool
         return true;
     }
 
-    protected function storeItemInCache($key, CacheItemInterface $item, $ttl)
+    /**
+     * {@inheritdoc}
+     */
+    protected function storeItemInCache(CacheItemInterface $item, $ttl)
     {
-        return $this->cache->set($key, $item, 0, $ttl ?: 0);
+        $data = serialize([true, $item->get(), []]);
+
+        return $this->cache->set($item->getKey(), $data, 0, $ttl ?: 0);
     }
 }
