@@ -12,14 +12,14 @@
 namespace Cache\Adapter\Memcache\Tests;
 
 use Cache\Adapter\Memcache\MemcacheCachePool;
-use Cache\IntegrationTests\CachePoolTest;
+use Cache\IntegrationTests\SimpleCacheTest;
 use Memcache;
 
-class IntegrationPoolTest extends CachePoolTest
+class IntegrationSimpleCacheTest extends SimpleCacheTest
 {
     private $client;
 
-    public function createCachePool()
+    public function createSimpleCache()
     {
         if (!class_exists('Memcache')) {
             $this->markTestSkipped();

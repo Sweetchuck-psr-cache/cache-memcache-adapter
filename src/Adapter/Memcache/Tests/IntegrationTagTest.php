@@ -12,10 +12,10 @@
 namespace Cache\Adapter\Memcache\Tests;
 
 use Cache\Adapter\Memcache\MemcacheCachePool;
-use Cache\IntegrationTests\CachePoolTest;
+use Cache\IntegrationTests\TaggableCachePoolTest;
 use Memcache;
 
-class IntegrationPoolTest extends CachePoolTest
+class IntegrationTagTest extends TaggableCachePoolTest
 {
     private $client;
 
