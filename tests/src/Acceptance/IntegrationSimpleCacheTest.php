@@ -12,13 +12,13 @@ declare(strict_types = 1);
  * with this source code in the file LICENSE.
  */
 
-namespace Cache\Adapter\Memcache\Tests;
+namespace Cache\Adapter\Memcache\Tests\Acceptance;
 
 use Cache\Adapter\Memcache\MemcacheCachePool;
-use Cache\IntegrationTests\TaggableCachePoolTest;
-use Cache\TagInterop\TaggableCacheItemPoolInterface;
+use Cache\IntegrationTests\SimpleCacheTest;
+use Psr\SimpleCache\CacheInterface;
 
-class IntegrationTagTest extends TaggableCachePoolTest
+class IntegrationSimpleCacheTest extends SimpleCacheTest
 {
     private ?\Memcache $client = null;
 
@@ -31,7 +31,7 @@ class IntegrationTagTest extends TaggableCachePoolTest
         $this->client?->close();
     }
 
-    public function createCachePool(): TaggableCacheItemPoolInterface
+    public function createSimpleCache(): CacheInterface
     {
         if (!class_exists(\Memcache::class)) {
             static::markTestSkipped();
